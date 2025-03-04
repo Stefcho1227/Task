@@ -1,6 +1,7 @@
 package org.example.taskproject.models;
 
 import jakarta.persistence.*;
+import org.example.taskproject.enums.Priority;
 
 import java.time.LocalDate;
 
@@ -19,12 +20,12 @@ public class Task {
     private LocalDate dueDate;
 
     @Column(name = "is_completed")
-    private boolean isCompleted;
+    private Boolean isCompleted;
     @Enumerated(EnumType.STRING)
     @Column(name = "priority")
-    private String priority;
+    private Priority priority;
     @Column(name = "is_critical")
-    private boolean isCritical;
+    private Boolean isCritical;
 
     public Task() {
     }
@@ -61,27 +62,27 @@ public class Task {
         this.dueDate = dueDate;
     }
 
-    public boolean isCompleted() {
+    public Boolean isCompleted() {
         return isCompleted;
     }
 
-    public void setCompleted(boolean completed) {
+    public void setCompleted(Boolean completed) {
         isCompleted = completed;
     }
 
-    public String getPriority() {
+    public Priority getPriority() {
         return priority;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(Priority priority) {
         this.priority = priority;
     }
 
-    public boolean isCritical() {
+    public Boolean isCritical() {
         return isCritical;
     }
 
-    public void setCritical(boolean critical) {
+    public void setCritical(Boolean critical) {
         isCritical = critical;
     }
 }

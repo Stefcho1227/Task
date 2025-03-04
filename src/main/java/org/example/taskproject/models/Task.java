@@ -18,13 +18,70 @@ public class Task {
     @Column(name = "due_date")
     private LocalDate dueDate;
 
-
     @Column(name = "is_completed")
     private boolean isCompleted;
-
+    @Enumerated(EnumType.STRING)
     @Column(name = "priority")
     private String priority;
     @Column(name = "is_critical")
     private boolean isCritical;
 
+    public Task() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+    public boolean isCritical() {
+        return isCritical;
+    }
+
+    public void setCritical(boolean critical) {
+        isCritical = critical;
+    }
 }

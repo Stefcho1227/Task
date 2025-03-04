@@ -36,7 +36,7 @@ public class TaskRestController {
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String description,
             @RequestParam(required = false) Priority priority,
-            @RequestParam(required = false) boolean isCompleted,
+            @RequestParam(required = false) Boolean isCompleted,
             @RequestParam(defaultValue = "priority") String sortBy,
             @RequestParam(defaultValue = "asc") String sortDirection
     ) {
@@ -45,7 +45,8 @@ public class TaskRestController {
         );
     }
     @PutMapping("/{id}")
-    public Task updateTask(@PathVariable Integer id, @Valid @RequestBody Task task) {
+    public Task updateTask(@PathVariable Integer id, @Valid @RequestBody TaskInDto taskInDto) {
+        Task task = taskMapper.fromDto(taskInDto);
         return taskService.updateTask(id, task);
     }
     @DeleteMapping("/{id}")

@@ -43,7 +43,7 @@ public class TaskServiceImpl implements TaskService {
     public List<Task> getAllTasks( String title,
                                    String description,
                                    Priority priority,
-                                   boolean isCompleted,
+                                   Boolean isCompleted,
                                    String sortBy,
                                    String sortDir) {
         Specification<Task> spec = (root, query, cb) -> {
@@ -59,8 +59,10 @@ public class TaskServiceImpl implements TaskService {
                 predicate = cb.and(predicate,
                         cb.equal(root.get("priority"), priority));
             }
-            predicate = cb.and(predicate,
-                    cb.equal(root.get("isCompleted"), isCompleted));
+            if (isCompleted != null){
+                predicate = cb.and(predicate,
+                        cb.equal(root.get("isCompleted"), isCompleted));
+            }
             return predicate;
         };
         Sort sort = sortDir.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
@@ -75,7 +77,7 @@ public class TaskServiceImpl implements TaskService {
         task.setDueDate(newTask.getDueDate());
         task.setCritical(newTask.isCritical());
         task.setCompleted(newTask.isCompleted());
-        Priority priority = computePriority(task);
+        Priority priority = computePriority(newTask);
         task.setPriority(priority);
         return taskRepository.save(task);
     }

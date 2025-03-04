@@ -13,7 +13,7 @@ public class TaskInDto {
     private String description;
     private LocalDate dueDate;
     @JsonProperty("isCritical")
-    private boolean isCritical;
+    private Boolean isCritical;
     public TaskInDto(){
     }
 
@@ -41,11 +41,11 @@ public class TaskInDto {
         this.dueDate = dueDate;
     }
 
-    public boolean getCritical() {
+    public Boolean getCritical() {
         return isCritical;
     }
 
-    public void setCritical(boolean isCritical) {
+    public void setCritical(Boolean isCritical) {
         this.isCritical = isCritical;
     }
 }

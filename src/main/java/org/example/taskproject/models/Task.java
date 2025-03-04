@@ -20,12 +20,12 @@ public class Task {
     private LocalDate dueDate;
 
     @Column(name = "is_completed")
-    private Boolean isCompleted;
+    private boolean isCompleted;
     @Enumerated(EnumType.STRING)
     @Column(name = "priority")
     private Priority priority;
     @Column(name = "is_critical")
-    private Boolean isCritical;
+    private boolean isCritical;
 
     public Task() {
     }
@@ -62,11 +62,11 @@ public class Task {
         this.dueDate = dueDate;
     }
 
-    public Boolean isCompleted() {
+    public boolean isCompleted() {
         return isCompleted;
     }
 
-    public void setCompleted(Boolean completed) {
+    public void setCompleted(boolean completed) {
         isCompleted = completed;
     }
 
@@ -78,11 +78,11 @@ public class Task {
         this.priority = priority;
     }
 
-    public Boolean isCritical() {
+    public boolean isCritical() {
         return isCritical;
     }
 
-    public void setCritical(Boolean critical) {
-        isCritical = critical;
+    public void setCritical(boolean isCritical) {
+        this.isCritical = isCritical;
     }
 }

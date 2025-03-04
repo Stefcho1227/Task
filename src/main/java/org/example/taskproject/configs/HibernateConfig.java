@@ -19,13 +19,13 @@ public class HibernateConfig {
     public  HibernateConfig(Environment env){
         dbUrl = env.getProperty("database.url");
         dbUsername = env.getProperty("database.username");
-        dbPassword = env.getProperty("databse.password");
+        dbPassword = env.getProperty("database.password");
     }
-    @Bean(name = "manageFactory")
+    @Bean(name = "entityManagerFactory")
     public LocalSessionFactoryBean sessionFactory(){
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        sessionFactory.setPackagesToScan("com.example.taskproject.models");
+        sessionFactory.setPackagesToScan("org.example.taskproject.models");
         sessionFactory.setHibernateProperties(hibernateProperties());
         return sessionFactory;
     }

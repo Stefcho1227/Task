@@ -58,7 +58,17 @@ public class TaskServiceImpl implements TaskService {
             }
             return predicate;
         };
-        Sort sort = sortDir.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+        //Sort sort = sortDir.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+        Sort sort;
+        if(sortBy.equals("priority")){
+            sort = sortDir.equalsIgnoreCase("desc")
+                    ? Sort.by("priority").ascending()
+                    : Sort.by("priority").descending();
+        } else {
+            sort = sortDir.equalsIgnoreCase("desc")
+                    ? Sort.by(sortBy).descending()
+                    : Sort.by(sortBy).ascending();
+        }
         return taskRepository.findAll(spec, sort);
     }
     @Transactional

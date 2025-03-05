@@ -14,9 +14,17 @@ public class TaskInDto {
     private LocalDate dueDate;
     @JsonProperty("isCritical")
     private Boolean isCritical;
+    @JsonProperty("isCompleted")
+    private Boolean isCompleted;
     public TaskInDto(){
     }
 
+    public Boolean getCompleted() {
+        return isCompleted;
+    }
+    public void setCompleted(Boolean completed) {
+        isCompleted = completed;
+    }
     public String getTitle() {
         return title;
     }

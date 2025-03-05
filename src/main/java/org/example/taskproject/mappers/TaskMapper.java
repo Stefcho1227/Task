@@ -14,7 +14,11 @@ public class TaskMapper {
         task.setDescription(taskInDto.getDescription());
         task.setDueDate(taskInDto.getDueDate());
         task.setCritical(taskInDto.getCritical());
-        task.setCompleted(Boolean.FALSE);
+        if(taskInDto.getCompleted() == null){
+            task.setCompleted(Boolean.FALSE);
+        } else{
+            task.setCompleted(taskInDto.getCompleted());
+        }
         return task;
     }
 }

@@ -1,5 +1,6 @@
 package org.example.taskproject.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.example.taskproject.enums.Priority;
 
@@ -77,7 +78,7 @@ public class Task {
     public void setPriority(Priority priority) {
         this.priority = priority;
     }
-
+    @JsonIgnore
     public Boolean isCritical() {
         return isCritical;
     }

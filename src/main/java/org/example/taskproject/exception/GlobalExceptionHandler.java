@@ -66,7 +66,6 @@ public class GlobalExceptionHandler {
         errorBody.put("message", ex.getReason());
         return new ResponseEntity<>(errorBody, ex.getStatusCode());
     }
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleOtherExceptions(Exception ex) {
         Map<String, Object> errorBody = new HashMap<>();

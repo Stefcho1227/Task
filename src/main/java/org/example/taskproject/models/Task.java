@@ -2,6 +2,7 @@ package org.example.taskproject.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
 import org.example.taskproject.enums.Priority;
 
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ public class Task {
     @Column(name = "description")
     private String description;
     @Column(name = "due_date")
+    @FutureOrPresent
     private LocalDate dueDate;
 
     @Column(name = "is_completed")

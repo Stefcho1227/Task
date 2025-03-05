@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import jakarta.persistence.criteria.Predicate;
@@ -58,7 +59,10 @@ public class TaskServiceImpl implements TaskService {
             }
             return predicate;
         };
-        //Sort sort = sortDir.equalsIgnoreCase("desc") ? Sort.by(sortBy).descending() : Sort.by(sortBy).ascending();
+        List<String> validSortFields = Arrays.asList("priority", "dueDate");
+        if (!validSortFields.contains(sortBy)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid sortBy field: " + sortBy);
+        }
         Sort sort;
         if(sortBy.equals("priority")){
             sort = sortDir.equalsIgnoreCase("desc")

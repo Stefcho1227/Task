@@ -48,13 +48,6 @@ public class TaskServiceImpl implements TaskService {
                                    String sortDir) {
         Specification<Task> spec = (root, query, cb) -> {
             Predicate predicate = cb.conjunction();
-            if(title != null && !title.isEmpty()){
-                predicate = cb.and(predicate, cb.like(root.get("title"), "%" + title + "%"));
-            }
-            if (description != null && !description.isEmpty()) {
-                predicate = cb.and(predicate,
-                        cb.like(root.get("description"), "%" + description + "%"));
-            }
             if (priority != null) {
                 predicate = cb.and(predicate,
                         cb.equal(root.get("priority"), priority));

@@ -41,3 +41,57 @@ This project is a RESTful API for managing tasks with built-in task prioritizati
        database.password=your_password
    ```
    Run the SQL scripts in the resources folder to create and populate the database.
+## Testing the API
+You can use Postman or any other REST client to test the endpoints. For example:
+
+- GET /api/tasks – Retrieve all tasks.
+
+- POST /api/tasks – Create a new task.
+
+- PUT /api/tasks/{id} – Update an existing task.
+
+- DELETE /api/tasks/{id} – Delete a task.
+
+## Future Improvements
+- **Authentication & Authorization:**
+
+Implement user management and secure the endpoints.
+
+- **Advanced Filtering:**
+
+Expand filtering to include additional fields such as title and description.
+- **User Roles & Collaboration:**
+
+Enable multiple users to collaborate on tasks, including role-based permissions (e.g., admin, editor, viewer).
+- **Swagger/OpenAPI Documentation:**
+
+Generate interactive API documentation (using Swagger UI) so that front-end developers can easily understand and test the endpoints.
+
+## External Libraries & Tools
+- **Spring Boot**
+
+Provides the framework for rapid API development, dependency injection.
+
+- **Hibernate**
+
+Used as the ORM tool for mapping your Java entities to the MariaDB database.
+
+- **MariaDB JDBC Driver:**
+
+Enables database connectivity with a MariaDB instance.
+
+- **Jakarta Validation (Hibernate Validator):**
+
+Enforces bean validation constraints (e.g., @Size, @FutureOrPresent) on DTOs and entities.
+
+- **JUnit:**
+
+Used for writing unit tests for the service layer.
+
+- **Mockito:**
+
+Provides mocking capabilities for unit testing, allowing you to simulate repository behavior.
+
+- **Build Tools (Maven/Gradle):**
+
+These are used to manage project dependencies, build the project, and run the application.

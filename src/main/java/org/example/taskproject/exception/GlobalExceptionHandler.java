@@ -99,19 +99,6 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleOtherExceptions(Exception ex) {
-        ResponseStatusException rse = null;
-        if (ex instanceof ResponseStatusException) {
-            rse = (ResponseStatusException) ex;
-        } else if (ex.getCause() instanceof ResponseStatusException) {
-            rse = (ResponseStatusException) ex.getCause();
-        }
-        if (rse != null) {
-            Map<String, Object> errorBody = new HashMap<>();
-            errorBody.put("status", rse.getStatusCode().value());
-            errorBody.put("error", "Not Found");
-            errorBody.put("message", rse.getReason());
-            return new ResponseEntity<>(errorBody, rse.getStatusCode());
-        }
         Map<String, Object> errorBody = new HashMap<>();
         errorBody.put("status", 500);
         errorBody.put("error", "Internal Server Error");

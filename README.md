@@ -33,9 +33,11 @@ This project is a RESTful API for managing tasks with built-in task prioritizati
    git clone https://github.com/yourusername/task-prioritization-api.git
    cd task-prioritization-api
 2. **Configure the Database:**
+
    Update the application.properties file with your database credentials. For example:
    ```bash
        database.url=jdbc:mariadb://localhost:3306/your_db
        database.username=your_username
        database.password=your_password
+   
    Run the SQL scripts in the resources folder to create and populate the database.

@@ -1,12 +1,16 @@
 package org.example.taskproject.exception;
 
 import jakarta.validation.ConstraintViolationException;
+import org.example.taskproject.exception.custom.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
@@ -58,20 +62,61 @@ public class GlobalExceptionHandler {
         errorBody.put("violations", violations);
         return errorBody;
     }
-    @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity<?> handleResponseStatusException(ResponseStatusException ex) {
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<?> handleResourceNotFoundException(ResourceNotFoundException ex) {
         Map<String, Object> errorBody = new HashMap<>();
-        errorBody.put("status", ex.getStatusCode().value());
-        errorBody.put("error", ex.getStatusCode());
-        errorBody.put("message", ex.getReason());
-        return new ResponseEntity<>(errorBody, ex.getStatusCode());
+        errorBody.put("status", HttpStatus.NOT_FOUND.value());
+        errorBody.put("error", "Not Found");
+        errorBody.put("message", ex.getMessage());
+        return new ResponseEntity<>(errorBody, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, Object> handleTypeMismatchException(MethodArgumentTypeMismatchException ex) {
+        Map<String, Object> errorBody = new HashMap<>();
+        errorBody.put("status", HttpStatus.BAD_REQUEST.value());
+        errorBody.put("error", "Type Mismatch");
+        errorBody.put("message", "Invalid value for parameter: " + ex.getName());
+        return errorBody;
+    }
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, Object> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        Map<String, Object> errorBody = new HashMap<>();
+        errorBody.put("status", HttpStatus.BAD_REQUEST.value());
+        errorBody.put("error", "Malformed JSON Request");
+        errorBody.put("message", ex.getMessage());
+        return errorBody;
+    }
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, Object> handleMissingServletRequestParameterException(MissingServletRequestParameterException ex) {
+        Map<String, Object> errorBody = new HashMap<>();
+        errorBody.put("status", HttpStatus.BAD_REQUEST.value());
+        errorBody.put("error", "Missing Request Parameter");
+        errorBody.put("message", ex.getMessage());
+        return errorBody;
     }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleOtherExceptions(Exception ex) {
+        ResponseStatusException rse = null;
+        if (ex instanceof ResponseStatusException) {
+            rse = (ResponseStatusException) ex;
+        } else if (ex.getCause() instanceof ResponseStatusException) {
+            rse = (ResponseStatusException) ex.getCause();
+        }
+        if (rse != null) {
+            Map<String, Object> errorBody = new HashMap<>();
+            errorBody.put("status", rse.getStatusCode().value());
+            errorBody.put("error", "Not Found");
+            errorBody.put("message", rse.getReason());
+            return new ResponseEntity<>(errorBody, rse.getStatusCode());
+        }
         Map<String, Object> errorBody = new HashMap<>();
         errorBody.put("status", 500);
         errorBody.put("error", "Internal Server Error");
         errorBody.put("message", ex.getMessage());
         return new ResponseEntity<>(errorBody, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
 }

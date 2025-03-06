@@ -3,6 +3,7 @@ package org.example.taskproject.controllers.rest;
 import jakarta.validation.Valid;
 import org.example.taskproject.dtos.in.TaskInDto;
 import org.example.taskproject.enums.Priority;
+import org.example.taskproject.exception.custom.ResourceNotFoundException;
 import org.example.taskproject.mappers.TaskMapper;
 import org.example.taskproject.models.Task;
 import org.example.taskproject.services.contracts.TaskService;
@@ -29,7 +30,7 @@ public class TaskRestController {
     @GetMapping("/{id}")
     public Task getTaskById(@PathVariable Integer id) {
         return taskService.getTaskById(id)
-                .orElseThrow(() -> new RuntimeException("Task not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Task not found"));
     }
     @GetMapping
     public List<Task> getTasks(

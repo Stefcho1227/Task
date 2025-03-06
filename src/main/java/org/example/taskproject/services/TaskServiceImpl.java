@@ -1,5 +1,6 @@
 package org.example.taskproject.services;
 
+import jakarta.persistence.criteria.Expression;
 import org.example.taskproject.enums.Priority;
 import org.example.taskproject.models.Task;
 import org.example.taskproject.repositories.TaskRepository;
@@ -57,22 +58,28 @@ public class TaskServiceImpl implements TaskService {
                 predicate = cb.and(predicate,
                         cb.equal(root.get("isCompleted"), isCompleted));
             }
+            if("priority".equals(sortBy)){
+                var priorityOrder = cb.selectCase()
+                        .when(cb.equal(root.get("priority"), Priority.HIGH), 3)
+                        .when(cb.equal(root.get("priority"), Priority.MEDIUM), 2)
+                        .otherwise(1);
+                if(sortDir.equalsIgnoreCase("desc")){
+                    query.orderBy(cb.desc(priorityOrder));
+                } else {
+                    query.orderBy(cb.asc(priorityOrder));
+                }
+            }
             return predicate;
         };
         List<String> validSortFields = Arrays.asList("priority", "dueDate");
         if (!validSortFields.contains(sortBy)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid sortBy field: " + sortBy);
         }
-        Sort sort;
-        if(sortBy.equals("priority")){
-            sort = sortDir.equalsIgnoreCase("desc")
-                    ? Sort.by("priority").ascending()
-                    : Sort.by("priority").descending();
-        } else {
-            sort = sortDir.equalsIgnoreCase("desc")
-                    ? Sort.by(sortBy).descending()
-                    : Sort.by(sortBy).ascending();
-        }
+        Sort sort = "priority".equalsIgnoreCase(sortBy)
+                ? Sort.unsorted()
+                : (sortDir.equalsIgnoreCase("desc")
+                    ?Sort.by(sortBy).descending()
+                    :Sort.by(sortBy).ascending());
         return taskRepository.findAll(spec, sort);
     }
     @Transactional
